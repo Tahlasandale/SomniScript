@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ma PWA</title>
+    
+    <!-- Liens PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2209e5">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    
+    <!-- Fichiers locaux -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SomniScript | Générateur Onirique</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Sedgwick+Ave+Display&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Palette Nuit / Hypnose */
+            --asphalt: #050510;
+            --petrol: #0a0a20;
+            --acid: #00e5ff; /* Cyan doux */
+            --flash: #b388ff; /* Violet onirique */
+            --font-cyber: 'JetBrains Mono', monospace;
+            --font-tag: 'Sedgwick Ave Display', cursive;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--asphalt);
+            color: var(--acid);
+            font-family: var(--font-cyber);
+            min-height: 100vh;
+            padding: 2rem;
+            background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)" opacity="0.04"/></svg>');
+            overflow-x: hidden;
+        }
+
+        /* --- TYPOGRAPHIE --- */
+        h1, h2 {
+            font-family: var(--font-tag);
+            color: var(--flash);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 15px rgba(179, 136, 255, 0.4);
+            margin-bottom: 1.5rem;
+        }
+
+        h1 { font-size: 4rem; text-align: center; }
+        h2 { font-size: 2rem; }
+
+        .cyber-text {
+            color: var(--acid);
+            font-family: var(--font-cyber);
+        }
+
+        /* --- COMPOSANTS --- */
+        .panel {
+            background-color: var(--petrol);
+            border: 1px solid var(--acid);
+            padding: 2rem;
+            margin: 0 auto 2rem auto;
+            max-width: 800px;
+            position: relative;
+            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+            transition: all 0.3s ease;
+        }
+
+        .panel:hover {
+            box-shadow: inset 0 0 10px rgba(0, 229, 255, 0.1);
+        }
+
+        .panel.hidden {
+            display: none;
+        }
+
+        /* Glitch Animation */
+        .glitch-transition {
+            animation: glitch-anim 0.4s cubic-bezier(.25, .46, .45, .94) both infinite;
+        }
+
+        @keyframes glitch-anim {
+            0% { transform: translate(0); text-shadow: 0 0 0; }
+            20% { transform: translate(-2px, 2px); text-shadow: 2px 0 var(--flash), -2px 0 var(--acid); }
+            40% { transform: translate(-2px, -2px); text-shadow: 2px 0 var(--acid), -2px 0 var(--flash); }
+            60% { transform: translate(2px, 2px); text-shadow: -2px 0 var(--flash), 2px 0 var(--acid); }
+            80% { transform: translate(2px, -2px); text-shadow: -2px 0 var(--acid), 2px 0 var(--flash); }
+            100% { transform: translate(0); text-shadow: 0 0 0; }
+        }
+
+        /* --- FORMULAIRES & BOUTONS --- */
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        input[type="text"], input[type="password"], select, textarea {
+            width: 100%;
+            background-color: var(--asphalt);
+            border: 1px solid var(--acid);
+            color: var(--acid);
+            padding: 0.8rem;
+            font-family: var(--font-cyber);
+            margin-bottom: 1.5rem;
+            outline: none;
+        }
+
+        input[type="text"]:focus, input[type="password"]:focus, select:focus, textarea:focus {
+            border-color: var(--flash);
+            box-shadow: 0 0 8px rgba(179, 136, 255, 0.4);
+        }
+
+        select {
+            appearance: none;
+            background-image: linear-gradient(45deg, transparent 50%, var(--flash) 50%), linear-gradient(135deg, var(--flash) 50%, transparent 50%);
+            background-position: calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px);
+            background-size: 5px 5px, 5px 5px;
+            background-repeat: no-repeat;
+        }
+
+        button {
+            background: transparent;
+            color: var(--flash);
+            border: 2px solid var(--flash);
+            padding: 1rem 2rem;
+            font-family: var(--font-cyber);
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+        }
+
+        button:hover:not(:disabled) {
+            background-color: var(--flash);
+            color: var(--asphalt);
+            box-shadow: 0 0 20px var(--flash);
+        }
+
+        button:disabled {
+            border-color: #555;
+            color: #555;
+            cursor: not-allowed;
+        }
+
+        /* Barre de progression ASCII */
+        .progress-bar-ascii {
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            margin: 1rem 0;
+            white-space: pre;
+            overflow: hidden;
+            text-align: center;
+        }
+        .progress-filled { color: var(--flash); text-shadow: 0 0 5px var(--flash); }
+        .progress-empty { color: #333; }
+
+        .terminal-log {
+            background: var(--asphalt);
+            padding: 1.5rem;
+            overflow-y: auto;
+            border: 1px solid #333;
+            font-size: 0.9rem;
+            color: #aaa;
+            border-radius: 4px;
+        }
+        
+        .terminal-log div { margin-bottom: 0.8rem; line-height: 1.6; }
+        .log-highlight { color: var(--flash); font-weight: bold; }
+        
+        .log-script {
+            color: #fff;
+            background: rgba(179, 136, 255, 0.05);
+            border-left: 3px solid var(--flash);
+            padding: 1rem;
+            margin: 1rem 0 !important;
+            font-style: normal;
+            font-size: 1rem;
+            text-shadow: 0 0 2px rgba(255,255,255,0.1);
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>SomniScript</h1>
+    <div style="text-align: center; color: var(--acid); margin-top: -1rem; margin-bottom: 2rem;">
+        Générateur de Scénarios d'Endormissement
+    </div>
+
+    <!-- ETAPE 1 : CONFIGURATION -->
+    <div id="step-config" class="panel">
+        <h2>1. Paramètres de Rêve</h2>
+        
+        <label for="api-key">Clé API Google Gemini <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: var(--flash); float: right; text-decoration: none; text-transform: none; font-size: 0.8rem;">[ Obtenir une clé ]</a></label>
+        <input type="password" id="api-key" placeholder="AIzaSy...">
+        <div id="model-loading-status" style="font-size: 0.8rem; margin-bottom: 1rem; color: #555;">En attente de la clé API pour valider la connexion...</div>
+        
+        <label for="model-text">Moteur Textuel (Narrative)</label>
+        <select id="model-text">
+            <option value="gemini-2.5-flash-preview-09-2025">Gemini 2.5 Flash Preview</option>
+        </select>
+
+        <label for="podcast-theme" style="margin-top: 2rem;">Thème de la Relaxation</label>
+        <input type="text" id="podcast-theme" placeholder="ex: Promenade calme dans une forêt d'automne..." value="Voyage interstellaire calme et méditatif à travers les nébuleuses">
+
+        <label for="podcast-duration">Longueur de la narration (Nombre de chapitres)</label>
+        <select id="podcast-duration">
+            <option value="3">Court (3 Chapitres - ~10 min de lecture)</option>
+            <option value="5" selected>Standard (5 Chapitres - ~20 min de lecture)</option>
+            <option value="8">Profond (8 Chapitres - ~30 min de lecture)</option>
+        </select>
+
+        <div style="margin-top: 1.5rem; display: flex; align-items: center; gap: 10px; background: rgba(0, 229, 255, 0.05); padding: 1rem; border: 1px solid rgba(0, 229, 255, 0.2);">
+            <input type="checkbox" id="enable-search" style="width: 20px; height: 20px; margin-bottom: 0; cursor: pointer;" checked>
+            <label for="enable-search" style="margin-bottom: 0; color: var(--acid); font-size: 0.9rem; text-transform: none; cursor: pointer;">
+                <strong>Agent Documentaliste</strong> : Activer la recherche web en temps réel pour des faits véridiques.
+            </label>
+        </div>
+
+        <button id="btn-init" style="width: 100%; margin-top: 1.5rem;">Générer le Manuscrit</button>
+    </div>
+
+    <!-- ETAPE 2 : PRODUCTION & EXPORT -->
+    <div id="step-gen" class="panel hidden">
+        <h2>2. Tissage du Rêve</h2>
+        
+        <div id="status-title" style="text-align: center; margin-bottom: 1rem; color: var(--flash); font-weight: bold;">Initialisation de l'IA Séquentielle...</div>
+        
+        <div class="progress-bar-ascii" id="progress-bar">
+            [<span class="progress-filled"></span><span class="progress-empty">||||||||||||||||||||||||||||||||||||||||</span>] 0%
+        </div>
+
+        <div class="terminal-log" id="terminal-log" style="height: 500px;">
+            <div>> _ Système de génération textuelle prêt.</div>
+        </div>
+    </div>
+
+    <!-- ETAPE 3 : EDITION & EXPORT -->
+    <div id="step-edit" class="panel hidden">
+        <h2>3. Retouche & Exportation</h2>
+        
+        <label for="final-script-area" style="color: var(--flash);">Manuscrit Complet (Éditable)</label>
+        <textarea id="final-script-area" style="height: 400px; resize: vertical; line-height: 1.5; font-size: 1rem;"></textarea>
+        
+        <div id="download-container" style="margin-top: 2rem;">
+            <button id="btn-download-final" style="width:100%;">Télécharger le Script (.txt)</button>
+            <button id="btn-restart" style="width: 100%; margin-top: 1rem; border-color: var(--acid); color: var(--acid);">Créer un nouveau script</button>
+        </div>
+    </div>
+
+<script>
+/**
+ * SOMNISCRIPT - Text Generator Engine
+ * Architecture 100% Client-Side Vanilla JS
+ */
+
+let apiKey = localStorage.getItem('somnio_api_key') || "";
+
+const state = {
+    theme: "",
+    chaptersCount: 5,
+    lastValidKey: "",
+    generatedScriptChunks: [],
+    fullTextBlobUrl: null,
+    enableSearch: true
+};
+
+const els = {
+    apiKey: document.getElementById('api-key'),
+    theme: document.getElementById('podcast-theme'),
+    duration: document.getElementById('podcast-duration'),
+    enableSearch: document.getElementById('enable-search'),
+    btnInit: document.getElementById('btn-init'),
+    stepConfig: document.getElementById('step-config'),
+    stepGen: document.getElementById('step-gen'),
+    stepEdit: document.getElementById('step-edit'),
+    progressBarFilled: document.querySelector('.progress-filled'),
+    progressBarEmpty: document.querySelector('.progress-empty'),
+    statusTitle: document.getElementById('status-title'),
+    terminalLog: document.getElementById('terminal-log'),
+    finalScriptArea: document.getElementById('final-script-area'),
+    btnDownloadFinal: document.getElementById('btn-download-final'),
+    btnRestart: document.getElementById('btn-restart'),
+    modelText: document.getElementById('model-text'),
+    modelLoadingStatus: document.getElementById('model-loading-status')
+};
+
+els.apiKey.value = apiKey;
+
+// --- UTILITAIRES ---
+
+function logTerminal(msg, type = 'system') {
+    const p = document.createElement('div');
+    if (type === 'system') {
+        p.innerHTML = `> ${msg}`;
+    } else if (type === 'highlight') {
+        p.innerHTML = `> <span class="log-highlight">${msg}</span>`;
+    } else if (type === 'error') {
+        p.innerHTML = `> <span style="color: red;">${msg}</span>`;
+    } else if (type === 'script') {
+        p.className = 'log-script';
+        p.textContent = msg; // textContent preserve les retours à la ligne
+    }
+    els.terminalLog.appendChild(p);
+    els.terminalLog.scrollTop = els.terminalLog.scrollHeight;
+}
+
+function updateProgress(percent) {
+    const totalBars = 40;
+    const filledBars = Math.floor((percent / 100) * totalBars);
+    const emptyBars = totalBars - filledBars;
+    els.progressBarFilled.textContent = '|'.repeat(filledBars);
+    els.progressBarEmpty.textContent = '|'.repeat(emptyBars);
+    els.progressBarFilled.nextSibling.textContent = `] ${percent}%`;
+}
+
+function glitchTransition(hideEl, showEl) {
+    hideEl.classList.add('glitch-transition');
+    setTimeout(() => {
+        hideEl.classList.remove('glitch-transition');
+        hideEl.classList.add('hidden');
+        showEl.classList.remove('hidden');
+        showEl.classList.add('glitch-transition');
+        setTimeout(() => showEl.classList.remove('glitch-transition'), 400);
+    }, 400);
+}
+
+// --- CHARGEMENT DYNAMIQUE DES MODELES ---
+
+async function loadModels(key) {
+    if (!key || key.length < 20) return;
+    els.modelLoadingStatus.textContent = "> Requête réseau : Vérification de l'API...";
+    els.modelLoadingStatus.style.color = "var(--acid)";
+    try {
+        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${key}`);
+        if (!res.ok) throw new Error("Clé invalide");
+        const data = await res.json();
+        
+        let textOptions = '';
+
+        data.models.forEach(m => {
+            const name = m.name.replace('models/', '');
+            if (name.includes('gemini') && m.supportedGenerationMethods && m.supportedGenerationMethods.includes('generateContent') && !name.includes('image-preview') && !name.includes('tts')) {
+                textOptions += `<option value="${name}">${m.displayName || name}</option>`;
+            }
+        });
+
+        if (textOptions) els.modelText.innerHTML = textOptions;
+        
+        els.modelLoadingStatus.textContent = "> API validée. Prêt à générer.";
+        els.modelLoadingStatus.style.color = "var(--acid)";
+        state.lastValidKey = key;
+    } catch (err) {
+        els.modelLoadingStatus.textContent = "> Erreur : Clé invalide ou API inaccessible.";
+        els.modelLoadingStatus.style.color = "red";
+    }
+}
+
+if (apiKey) loadModels(apiKey);
+els.apiKey.addEventListener('blur', () => {
+    const currentKey = els.apiKey.value.trim();
+    if (currentKey !== state.lastValidKey) loadModels(currentKey);
+});
+
+// --- API GEMINI ---
+
+async function fetchWithRetry(url, options, retries = 5) {
+    const delays = [1000, 2000, 4000, 8000, 16000];
+    for (let i = 0; i < retries; i++) {
+        try {
+            const response = await fetch(url, options);
+            if (!response.ok) {
+                const errData = await response.text();
+                throw new Error(`HTTP ${response.status} : ${errData}`);
+            }
+            return await response.json();
+        } catch (err) {
+            if (i === retries - 1) throw err;
+            await new Promise(res => setTimeout(res, delays[i]));
+        }
+    }
+}
+
+async function generateText(prompt, customSystemInstruction = null, useSearch = false) {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${els.modelText.value}:generateContent?key=${apiKey}`;
+    
+    const defaultInstruction = "Tu es un créateur de podcasts d'endormissement. Ton but est de raconter des histoires factuelles et fascinantes, en insistant absolument sur des détails TRÈS SPÉCIFIQUES, précis et véridiques du sujet. Évite les généralités. Parle d'une voix extrêmement calme, lente et apaisante. Tu t'adresses à l'auditeur avec 'tu'. N'inclus aucun titre, aucune note de mise en scène. Uniquement le texte à lire.";
+    const instructionToUse = customSystemInstruction || defaultInstruction;
+
+    const payload = {
+        contents: [{ parts: [{ text: prompt }] }],
+        systemInstruction: { 
+            parts: [{ text: instructionToUse }] 
+        }
+    };
+
+    // Activation de l'Agent Documentaliste via Google Search Grounding
+    if (useSearch) {
+        payload.tools = [{ google_search: {} }];
+    }
+
+    const res = await fetchWithRetry(url, { method: 'POST', body: JSON.stringify(payload) });
+    return res.candidates[0].content.parts[0].text.trim();
+}
+
+// --- LOGIQUE DE PIPELINE ---
+
+els.btnInit.addEventListener('click', () => {
+    apiKey = els.apiKey.value.trim();
+    if (!apiKey) return alert("Veuillez saisir la clé API Gemini.");
+    
+    localStorage.setItem('somnio_api_key', apiKey);
+    state.theme = els.theme.value.trim();
+    state.chaptersCount = parseInt(els.duration.value);
+    state.enableSearch = els.enableSearch.checked;
+    state.generatedScriptChunks = [];
+    
+    els.btnInit.disabled = true;
+    els.btnInit.textContent = "Préparation du canevas...";
+
+    glitchTransition(els.stepConfig, els.stepGen);
+    setTimeout(runProductionPhase, 1000);
+});
+
+els.btnRestart.addEventListener('click', () => {
+    els.terminalLog.innerHTML = '<div>> _ Réinitialisation du système...</div>';
+    updateProgress(0);
+    els.statusTitle.textContent = "En attente...";
+    els.btnInit.disabled = false;
+    els.btnInit.textContent = "Générer le Manuscrit";
+    els.finalScriptArea.value = "";
+    
+    if(state.fullTextBlobUrl) {
+        URL.revokeObjectURL(state.fullTextBlobUrl);
+    }
+    
+    glitchTransition(els.stepEdit, els.stepConfig);
+});
+
+els.btnDownloadFinal.addEventListener('click', () => {
+    const finalDocumentText = 
+`=========================================
+ SOMNISCRIPT : PODCAST D'ENDORMISSEMENT
+ THEME : ${state.theme}
+=========================================
+
+${els.finalScriptArea.value}
+
+=========================================
+ Généré par SomniScript
+=========================================`;
+
+    const blob = new Blob([finalDocumentText], { type: 'text/plain;charset=utf-8' });
+    if(state.fullTextBlobUrl) URL.revokeObjectURL(state.fullTextBlobUrl);
+    state.fullTextBlobUrl = URL.createObjectURL(blob);
+    
+    const safeThemeName = state.theme.replace(/[^a-z0-9]/gi, '_').toLowerCase().substring(0, 20);
+    
+    const tempLink = document.createElement('a');
+    tempLink.href = state.fullTextBlobUrl;
+    tempLink.download = `SomniScript_${safeThemeName}.txt`;
+    document.body.appendChild(tempLink);
+    tempLink.click();
+    document.body.removeChild(tempLink);
+});
+
+async function runProductionPhase() {
+    els.statusTitle.textContent = "Écriture en cours : Ne pas fermer la fenêtre";
+    logTerminal(`Initialisation du thème : "${state.theme}"`);
+    updateProgress(0);
+
+    const targetCount = state.chaptersCount;
+    const bodyChaptersCount = targetCount - 2;
+    let previousContext = "";
+    let storyPlan = "";
+
+    try {
+        // --- PHASE 1 : AGENT PLANIFICATEUR ---
+        if (bodyChaptersCount > 0) {
+            logTerminal(`[Planification] Création du plan narratif en ${bodyChaptersCount} parties...`, 'system');
+            const planPrompt = `Crée un plan très concis en ${bodyChaptersCount} parties pour raconter une histoire factuelle, documentaire et fascinante sur le thème : "${state.theme}". 
+            Cette histoire sera lue pour endormir quelqu'un, donc les faits doivent être intéressants, poétiques, mais pas anxiogènes ou trop intenses.
+            Retourne UNIQUEMENT une liste numérotée (1., 2., etc.), sans introduction ni conclusion.`;
+            
+            storyPlan = await generateText(planPrompt, "Tu es un agent de structuration narrative expert en documentaires apaisants. Tu ne rédiges que des plans stricts.");
+            logTerminal("Plan narratif établi :\n" + storyPlan, 'script');
+            await new Promise(r => setTimeout(r, 1000));
+        }
+
+        // --- PHASE 2 : AGENT REDACTEUR ---
+        for (let i = 1; i <= targetCount; i++) {
+            logTerminal(`[Génération] Écriture du chapitre ${i}/${targetCount}...`, 'system');
+            
+            let prompt = `Thème principal : ${state.theme}.\n\n`;
+            
+            if (i === 1) {
+                // INTRO ONIRIQUE (Induction)
+                prompt += `Consigne : Rédige l'introduction du podcast. Le but est d'induire une relaxation profonde immédiate.
+                Utilise un style OBLIGATOIREMENT très proche de ceci : "Installe-toi confortablement dans la douceur de tes draps, laisse ton corps s'enfoncer délicatement, comme si tu flottais sur une plume portée par une brise nocturne. Ferme les yeux maintenant, et autorise tes paupières à devenir lourdes, si lourdes qu'elles se scellent dans un repos total. Respire... inspire lentement cette fraîcheur qui t'entoure, et expire toutes les tensions de ta journée, les laissant simplement s'évanouir dans l'obscurité."
+                Après cette induction, introduis doucement le récit fascinant qui va suivre sur le thème demandé. Environ 150 mots.`;
+            
+            } else if (i === targetCount) {
+                // OUTRO ONIRIQUE (Sommeil)
+                prompt += `Contexte de la fin de l'histoire : "...${previousContext.slice(-500)}"\n\n`;
+                prompt += `Consigne : Rédige la conclusion finale du script. L'auditeur doit maintenant sombrer dans le vide du sommeil.
+                Utilise un style OBLIGATOIREMENT très proche de ceci pour conclure : "Le monde s'efface. Tu es arrivé. Bonne nuit. Paix. Repos. Sommeil... profond... calme... noir... doux... animus... corpus... dort... maintenant... tout... s'efface... bien... nuit... pure."
+                Adapte très légèrement pour lier à l'histoire, mais garde ce rythme saccadé, lent et extrêmement hypnotique à la fin. Environ 100-150 mots.`;
+                
+                var text = await generateText(prompt);
+            
+            } else {
+                // CORPS FACTUEL & INTERESSANT
+                const partNumber = i - 1;
+                
+                if (state.enableSearch) {
+                    logTerminal(`[Agent Documentaliste] Recherche web en cours pour sourcer la partie ${partNumber}...`, 'system');
+                }
+
+                prompt += `Voici le plan global de l'histoire : \n${storyPlan}\n\n`;
+                prompt += `Contexte précédent : "...${previousContext.slice(-800)}"\n\n`;
+                prompt += `Consigne : Rédige la PARTIE ${partNumber} du plan. 
+                Le contenu DOIT ÊTRE FACTUEL, PRÉCIS ET SPÉCIFIQUE (style documentaire pointu, récit historique ou vulgarisation scientifique). Insiste sur des détails concrets, réels et fascinants du sujet. Évite absolument les généralités vagues.
+                INTERDICTION absolue de faire de la relaxation ici (ne dis pas "respire", "dors", "ferme les yeux"). Contente-toi de raconter le monde, les faits, le récit, d'une voix douce de conteur nocturne.
+                Longueur : Écris le PLUS DE TEXTE POSSIBLE. Développe chaque détail, chaque anecdote et chaque description de manière exhaustive et immersive. Prends tout le temps nécessaire pour étirer le récit. Vise au minimum 800 à 1000 mots pour cette seule partie.`;
+                
+                var text = await generateText(prompt, null, state.enableSearch);
+            }
+            
+            // On sauvegarde le contexte pour le prochain prompt
+            previousContext += "\n\n" + text;
+            state.generatedScriptChunks.push(text);
+            
+            logTerminal(`[Chapitre ${i} terminé]`, 'highlight');
+            logTerminal(text, 'script');
+
+            updateProgress(Math.floor((i / targetCount) * 100));
+            
+            // Petite pause artificielle pour le rythme et l'API
+            await new Promise(r => setTimeout(r, 1500)); 
+        }
+
+        logTerminal("Le script onirique est achevé.", 'highlight');
+        els.statusTitle.textContent = "TERMINE - Transfert vers l'éditeur...";
+        
+        // Préparation du texte pour l'éditeur
+        const fullScriptString = state.generatedScriptChunks.join("\n\n");
+        els.finalScriptArea.value = fullScriptString;
+        
+        setTimeout(() => {
+            glitchTransition(els.stepGen, els.stepEdit);
+        }, 1500);
+
+    } catch(err) {
+        logTerminal(`Erreur Critique de Génération: ${err.message}`, 'error');
+        els.statusTitle.textContent = "ERREUR SYSTÈME";
+        els.terminalLog.innerHTML += `<br><button onclick="els.btnRestart.click()" style="width:100%; border-color: red; color: red;">Forcer la réinitialisation</button>`;
+    }
+}
+</script>
+</body>
+</html>
+    
+    <script src="app.js"></script>
+    <script>
+        // Enregistrement du Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('Service Worker enregistré avec succès.', reg))
+                    .catch(err => console.error('Erreur lors de l\'enregistrement du Service Worker.', err));
+            });
+        }
+    </script>
+</body>
+</html>
